@@ -10,11 +10,12 @@ from src.backend.model.user_response import AddUserResponse, GetUserResponse
 from src.backend.data import get_session
 
 from fastapi_utils.cbv import cbv
-from fastapi import FastAPI, APIRouter, Depends
+from fastapi import APIRouter, Depends
 
 from sqlalchemy.ext.asyncio import AsyncSession
     
-router  =  APIRouter(prefix  =  Routes.USER_CONTROLLER_PATH)
+
+router = APIRouter(prefix  =  Routes.USER_CONTROLLER_PATH)
 
 
 @cbv(router)
@@ -26,16 +27,16 @@ class UserController:
         self.sesssion = session
         self.service = UserService(session)
     
-    @router.post(path = "/add-user", response_model = AddUserResponse)
-    async def add_user(self, request_body: AddUserRequest) -> AddUserResponse:
+    @router.post(path = "/add-user", response_model = typing.Union[AddUserResponse, AbstractResponse])
+    async def add_user(self, request_body: AddUserRequest) -> typing.Union[AddUserResponse, AbstractResponse]:
         return await self.service.add_user(user = request_body, session = self.sesssion)
     
-    @router.get(path = "/get-user/{user_id}", response_model = GetUserResponse)
-    async def get_user_by_id(self, user_id: int) -> GetUserResponse:
+    @router.get(path = "/get-user/{user_id}", response_model = typing.Union[GetUserResponse, AbstractResponse])
+    async def get_user_by_id(self, user_id: int) -> typing.Union[GetUserResponse, AbstractResponse]:
         return await self.service.get_user_by_id(user_id = user_id, session = self.sesssion)
     
-    @router.get(path = "/get-users", response_model = typing.List[GetUserResponse])
-    async def get_users(self) -> typing.List[GetUserResponse]:
+    @router.get(path = "/get-users", response_model = typing.Union[typing.List[GetUserResponse], AbstractResponse])
+    async def get_users(self) -> typing.Union[typing.List[GetUserResponse], AbstractResponse]:
         return await self.service.get_users(session = self.sesssion)
     
     @router.delete(path = "/delete-user/{user_id}", response_model = AbstractResponse)

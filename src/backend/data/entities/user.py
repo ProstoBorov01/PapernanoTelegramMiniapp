@@ -5,6 +5,6 @@ from src.backend.data.entities.abstract_entity import AbstractEntity
 class User(AbstractEntity):
     __tablename__ = "Users"
 
-    USER_NAME: str = Column(String, nullable = False)
-    USER_WALLET_ADDRESS: str = Column(String, nullable = False)
+    user_name: str = Column(String, nullable = False)
+    user_wallet_address: str = Column(String, nullable = False)
     ...
