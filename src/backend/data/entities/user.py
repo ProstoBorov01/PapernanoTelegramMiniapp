@@ -7,4 +7,4 @@ class User(AbstractEntity):
 
     user_name: str = Column(String, nullable = False)
     user_wallet_address: str = Column(String, nullable = False)
-    ...
+    

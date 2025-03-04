@@ -25,7 +25,7 @@ class AbstractDAO:
     async def add(self, data: dict):
         sql = insert(self.entity).values(**data).returning(self.entity)
         row = await self.session.execute(sql)
-        return row.first()
+        return row.scalar()
 
     async def edit_by_id(self, id: int, **params) -> None:
         sql = update(self.entity).where(self.entity.id == id).values(**params)

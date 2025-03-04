@@ -19,28 +19,26 @@ class UserService:
         self.userDAO = UserDAO(session = session)
 
     async def add_user(self, user: AddUserRequest) -> typing.Union[AddUserResponse, AbstractResponse]:
-        try:
-            new_user: User = User(
-                user_name = user.user_name,
-                user_wallet_address = user.user_wallet_address
-            )
-            new_user_dict = new_user.__dict__
-            new_user_dict.pop("_sa_instance_state", None)
-            await self.userDAO.add(new_user_dict)
-            await self.session.commit()
-            await self.session.refresh(new_user)
-            return AddUserResponse(
-                user_id = new_user.id,
-                user_name = new_user.user_name,
-                user_wallet_address = new_user.user_wallet_address,
-                created_at = new_user.created_at
-            )
-        except Exception as ex:
-            self.session.rollback()
-            return AbstractResponse(
-                message = f"Error: {ex}",
-                status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-            )
+        # try:
+        new_user: User = User(
+            user_name = user.user_name,
+            user_wallet_address = user.user_wallet_address
+        )
+        new_user_dict = new_user.__dict__
+        new_user_dict.pop("_sa_instance_state", None)
+        await self.userDAO.add(new_user_dict)
+        await self.session.commit()
+        return AddUserResponse(
+            user_id = 1,
+            user_name = "1",
+            user_wallet_address = "1"
+        )
+        # except Exception as ex:
+        #     self.session.rollback()
+        #     return AbstractResponse(
+        #         message = f"Error: {ex}",
+        #         status_code = HTTPStatus.INTERNAL_SERVER_ERROR
+        #     )
         
     async def get_user_by_id(self, user_id: int) -> typing.Union[GetUserResponse, AbstractResponse]:
         try:
@@ -53,8 +51,7 @@ class UserService:
         return GetUserResponse(
             user_id = user.id,
             user_name = user.user_name,
-            user_wallet_address = user.user_wallet_address,
-            created_at = user.created_at
+            user_wallet_address = user.user_wallet_address
         )
     
     async def get_users(self) -> typing.Union[typing.List[GetUserResponse], AbstractResponse]:
@@ -64,8 +61,7 @@ class UserService:
                 GetUserResponse(
                     user_id = user.id,
                     user_name = user.user_name,
-                    user_wallet_address = user.user_wallet_address,
-                    created_at = user.created_at
+                    user_wallet_address = user.user_wallet_address
                 ) for user in users
             ]
         )

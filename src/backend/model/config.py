@@ -1,9 +1,10 @@
 
 
+# значения переменных вынести в .env
 class DatabaseConfig:
 
-    USERNAME: str = ""
-    PASSWORD: str = ""
-    SERVER_ADDRESS: str = ""
-    DATABASE_NAME: str = ""
+    USERNAME: str = "postgres"
+    PASSWORD: str = "root"
+    SERVER_ADDRESS: str = "localhost"
+    DATABASE_NAME: str = "papernano"
 
